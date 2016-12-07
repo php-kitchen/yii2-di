@@ -1,0 +1,38 @@
+{
+    "name": "dekeysoft/yii2-container",
+    "description": "Advanced Dependency Injection container built on top of default Yii2 container.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "Yii2",
+        "Yii",
+        "DI",
+        "Dependency Injection",
+        "Container",
+        "Service Provider",
+        "Decorator",
+        "Factory"
+    ],
+    "authors": [
+        {
+            "name": "Dmitry Kolodko",
+            "email": "prowwid@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^5.6|^7.0",
+        "yiisoft/yii2": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "5.6.*",
+        "dekeysoft/pu-tester": "^1.0",
+        "satooshi/php-coveralls": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "dekey\\di\\": "src",
+            "tests\\": "tests"
+        }
+    }
+}
