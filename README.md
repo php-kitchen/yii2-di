@@ -1,13 +1,13 @@
 # Yii2 Container
 
-Advanced Dependency Injection Container. 
+Advanced Dependency Injection Container fo Yii 2. 
 
 
 ## Package information
 
-Latest stable version | Total downloads | Licensing 
---------------------- |  -------------- | --------- 
-[![GitHub tag](https://img.shields.io/github/tag/dekeysoft/yii2-container.svg)]()| [![Total Downloads](https://img.shields.io/github/downloads/dekeysoft/yii2-container/latest/total.svg)](https://packagist.org/packages/dekeysoft/yii2-container) | [![License](https://img.shields.io/packagist/l/dekeysoft/yii2-container.svg)](https://github.com/dekeysoft/yii2-container/blob/master/LICENSE)
+Latest Stable Version | Total downloads | Monthly Downloads | Licensing 
+--------------------- |  -------------- | ----------------  | --------- 
+[![Latest Stable Version](https://poser.pugx.org/dekeysoft/yii2-container/v/stable)](https://packagist.org/packages/dekeysoft/yii2-container)| [![Total Downloads](https://poser.pugx.org/dekeysoft/yii2-container/downloads)](https://packagist.org/packages/dekeysoft/yii2-container) | [![Monthly Downloads](https://poser.pugx.org/dekeysoft/yii2-container/d/monthly)](https://packagist.org/packages/dekeysoft/yii2-container) | [![License](https://poser.pugx.org/dekeysoft/yii2-container/license)](https://packagist.org/packages/dekeysoft/yii2-container)
 
 
 ## Requirements
