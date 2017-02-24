@@ -11,4 +11,7 @@ if ($namespaceName) {
     echo "namespace {$namespaceName};";
 }
 ?>
-class <?= $className; ?> extends \<?= $baseClass; ?> {}
+
+
+class <?= $className; ?> extends \<?= $baseClass; ?> {
+}
