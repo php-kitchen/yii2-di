@@ -9,7 +9,7 @@ before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
   - mkdir -p build/logs
-  - chmod -Rf tests/runtime
+  - chmod -Rf 0777 tests/runtime
   - pwd
   - ls
 
