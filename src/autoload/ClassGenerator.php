@@ -10,20 +10,6 @@ use Yii;
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ClassGenerator {
-    /**
-     * @var \dekey\di\Container
-     */
-    private $container;
-    /**
-     * @var \yii\base\Application
-     */
-    private $application;
-
-    public function __construct() {
-        $this->container = Yii::$container;
-        $this->application = Yii::$app;
-    }
-
     public function getClassFileNameIfExistOrGenerate($class) {
         if ($this->isClassGenerated($class) || ($this->canClassBeGenerated($class) && $this->generateClassFileIfNotExist($class))) {
             $fileName = $this->buildClassFileName($class);
@@ -60,13 +46,18 @@ class ClassGenerator {
 
     public function buildClassFileName($class) {
         $baseClassName = $this->extractBaseClassFromDefinitionOf($class);
-        $runtimePath = $this->application->runtimePath;
+        $application = $this->getApplication();
+        $runtimePath = $application ? $application->runtimePath : sys_get_temp_dir();
         $fullClassName = str_replace('\\', '_', "{$class}__{$baseClassName}");
         return "{$runtimePath}/{$fullClassName}.php";
     }
 
     protected function extractBaseClassFromDefinitionOf($class) {
-        $definition = $this->container->getDefinitionOf($class);
+        $container = $this->getContainer();
+        if (!$container) {
+            return false;
+        }
+        $definition = $container->getDefinitionOf($class);
         if (is_array($definition) && isset($definition['class'])) {
             $baseClassName = $definition['class'];
         } elseif (is_string($definition)) {
@@ -121,5 +112,16 @@ class ClassGenerator {
         require __DIR__ . '/class-template.php';
 
         return ob_get_clean();
+    }
+
+    /**
+     * @return \dekey\di\Container
+     */
+    protected function getContainer() {
+        return Yii::$container;
+    }
+
+    protected function getApplication() {
+        return Yii::$app;
     }
 }
