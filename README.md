@@ -26,6 +26,12 @@ Or you can copy this library from:
 - [Packagist](https://packagist.org/packages/dekeysoft/yii2-container)
 - [Github](https://github.com/dekeysoft/yii2-container)
 
+Then add following line of code in you application entry point or bootstrap file:
+```php
+Yii::$container = new \dekey\di\Container();
+spl_autoload_unregister([\dekey\di\autoload\ClassLoader::class, 'loadClass']);
+```
+
 For additional information and guides go to the [project documentation](docs/README.md)
 
 ## Build status

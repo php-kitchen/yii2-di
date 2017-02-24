@@ -1,5 +1,5 @@
 <?php
-namespace tests\Base;
+namespace tests\base;
 
 use DeKey\Tester\TesterInitialization;
 
@@ -10,4 +10,20 @@ use DeKey\Tester\TesterInitialization;
  */
 class TestCase extends \PHPUnit\Framework\TestCase {
     use TesterInitialization;
+    /**
+     * @var \dekey\di\Container
+     */
+    protected $container;
+
+    protected function setUp() {
+        $this->container = \Yii::$container;
+        parent::setUp();
+    }
+
+    /**
+     * @before
+     */
+    protected function configureApplication() {
+        \Yii::$app->runtimePath = __DIR__ . '/../runtime';
+    }
 }

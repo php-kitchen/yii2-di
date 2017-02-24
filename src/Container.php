@@ -32,6 +32,14 @@ class Container extends \yii\di\Container implements contracts\Container {
     protected $_delayedServiceProviders;
     public $factoryClass = ClassFactory::class;
 
+    public function addProvider($provider) {
+        $this->registerServiceProvider($provider);
+    }
+
+    public function addDecorator($objectName, $decorator) {
+        $this->_decorators[$objectName][] = $decorator;
+    }
+
     public function createFactoryFor($class) {
         return $this->create([
             'class' => $this->factoryClass,
@@ -123,13 +131,6 @@ class Container extends \yii\di\Container implements contracts\Container {
         return isset($definitions[$definitionName]) ? $definitions[$definitionName] : [];
     }
 
-    public function addProvider($provider) {
-        if (!is_object($provider)) {
-            $provider = $this->create($provider);
-        }
-        $provider->register();
-    }
-
     protected function runDecoratorsOnObject($decoratorsGroupName, $object) {
         if (!$this->isDecoratorsGroupRegistered($decoratorsGroupName)) {
             return;
@@ -146,14 +147,36 @@ class Container extends \yii\di\Container implements contracts\Container {
         }
     }
 
-    public function addDecorator($objectName, $decorator) {
-        $this->_decorators[$objectName][] = $decorator;
-    }
-
     protected function isDecoratorsGroupRegistered($decoratorsGroup) {
         $objectName = is_object($decoratorsGroup) ? get_class($decoratorsGroup) : $decoratorsGroup;
         return isset($this->_decorators[$objectName]) && !empty($this->_decorators[$objectName]);
     }
+
+    /**
+     * @param ServiceProvider $serviceProvider
+     * @throws InvalidConfigException
+     */
+    protected function registerServiceProvider(ServiceProvider $serviceProvider) {
+        if (!is_object($serviceProvider)) {
+            $serviceProvider = $this->create($serviceProvider);
+        }
+
+        $providerClass = get_class($serviceProvider);
+
+        if (!($serviceProvider  instanceof ServiceProvider)) {
+            throw new InvalidConfigException('Service provider should be an instance of ' . ServiceProvider::class);
+        } elseif ($serviceProvider->shouldBeDelayed()) {
+            if (isset($this->_delayedServiceProviders[$providerClass])) {
+                unset($this->_delayedServiceProviders[$providerClass]);
+            } else {
+                $this->_delayedServiceProviders[] = $serviceProvider;
+            }
+        } else {
+            $serviceProvider->register();
+        }
+    }
+
+    //region ---------------------- SETTERS -------------------------------
 
     public function setDecorators($name, array $decorators) {
         foreach ($decorators as $decorator) {
@@ -166,50 +189,5 @@ class Container extends \yii\di\Container implements contracts\Container {
             $this->registerServiceProvider($serviceProvider);
         }
     }
-
-    protected function registerServiceProvider($serviceProvider) {
-        if (!is_object($serviceProvider)) {
-            $serviceProvider = $this->create($serviceProvider);
-        }
-        if (!($serviceProvider instanceof ServiceProvider)) {
-            throw new InvalidConfigException('Service provider should be an instance of ' . ServiceProvider::class);
-        } elseif ($serviceProvider->shouldBeDelayed()) {
-            $this->_delayedServiceProviders[] = $serviceProvider;
-        } else {
-            $serviceProvider->register();
-        }
-    }
-
-    public function setSingletons(array $singletons) {
-        $componentConfigurations = $this->expandComponentsConfig($singletons);
-        foreach ($componentConfigurations as $config) {
-            list ($class, $definition, $params) = $config;
-            $this->setSingleton($class, $definition, $params);
-        }
-    }
-
-    public function setComponents(array $components) {
-        $componentsConfigurations = $this->expandComponentsConfig($components);
-        foreach ($componentsConfigurations as $config) {
-            list ($class, $definition, $params) = $config;
-            $this->set($class, $definition, $params);
-        }
-    }
-
-    protected function expandComponentsConfig(&$componentConfig) {
-        foreach ($componentConfig as $name => $config) {
-            $definition = [];
-            $params = [];
-            if (is_numeric($name) && is_string($config)) {
-                $class = $config;
-            } elseif (is_string($name) && is_array($config)) {
-                $class = $name;
-                $definition = isset($config['definition']) ? $config['definition'] : $definition;
-                $params = isset($config['constructorParams']) ? $config['constructorParams'] : $params;
-            } else {
-                throw new InvalidConfigException('Container component configuration should be a string or combination of string key and array that contains definition and constructor params!');
-            }
-            yield [$class, $definition, $params];
-        }
-    }
+    //endregion
 }
