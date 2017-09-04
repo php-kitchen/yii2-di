@@ -54,4 +54,12 @@ interface ServiceProvider {
      * @return bool whether service provider registration should be delayed.
      */
     public function shouldBeDelayed();
+    /**
+     * @return bool makes provider a delayed.
+     */
+    public function delay();
+    /**
+     * @return bool remove delayed flag.
+     */
+    public function unDelay();
 }

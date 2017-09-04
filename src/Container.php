@@ -27,10 +27,18 @@ class Container extends \yii\di\Container implements contracts\Container {
      */
     protected $_serviceProviders;
     /**
-     * @var contracts\ServiceProvider[]|array
+     * @var \SplQueue
      */
-    protected $_delayedServiceProviders;
+    protected $delayedServiceProviders;
+    /**
+     * @var string default class for factory.
+     */
     public $factoryClass = ClassFactory::class;
+
+    public function init() {
+        parent::init();
+        $this->delayedServiceProviders = new \SplQueue();
+    }
 
     public function addProvider($provider) {
         $this->registerServiceProvider($provider);
@@ -99,10 +107,17 @@ class Container extends \yii\di\Container implements contracts\Container {
     }
 
     protected function registerDelayedServiceProviders() {
-        if (empty($this->_delayedServiceProviders)) {
+        $delayedServiceProviders = $this->delayedServiceProviders;
+        if ($delayedServiceProviders->isEmpty()) {
             return;
         }
-        foreach ($this->_delayedServiceProviders as $delayedServiceProvider) {
+        while (!$delayedServiceProviders->isEmpty()) {
+            /**
+             * @var $delayedServiceProvider ServiceProvider
+             */
+            $delayedServiceProvider = $delayedServiceProviders->dequeue();
+            $delayedServiceProvider = $this->ensureProviderIsObject($delayedServiceProvider);
+            $delayedServiceProvider->unDelay();
             $this->registerServiceProvider($delayedServiceProvider);
         }
     }
@@ -157,23 +172,26 @@ class Container extends \yii\di\Container implements contracts\Container {
      * @throws InvalidConfigException
      */
     protected function registerServiceProvider(ServiceProvider $serviceProvider) {
-        if (!is_object($serviceProvider)) {
-            $serviceProvider = $this->create($serviceProvider);
-        }
+        $serviceProvider = $this->ensureProviderIsObject($serviceProvider);
 
-        $providerClass = get_class($serviceProvider);
-
-        if (!($serviceProvider  instanceof ServiceProvider)) {
+        if (!($serviceProvider instanceof ServiceProvider)) {
             throw new InvalidConfigException('Service provider should be an instance of ' . ServiceProvider::class);
         } elseif ($serviceProvider->shouldBeDelayed()) {
-            if (isset($this->_delayedServiceProviders[$providerClass])) {
-                unset($this->_delayedServiceProviders[$providerClass]);
-            } else {
-                $this->_delayedServiceProviders[] = $serviceProvider;
-            }
+            $this->addDelayedServiceProvider($serviceProvider);
         } else {
             $serviceProvider->register();
         }
+    }
+
+    protected function addDelayedServiceProvider($provider) {
+        $this->delayedServiceProviders->enqueue($provider);
+    }
+
+    protected function ensureProviderIsObject($provider) {
+        if (!is_object($provider)) {
+            $provider = $this->create($provider);
+        }
+        return $provider;
     }
 
     //region ---------------------- SETTERS -------------------------------
