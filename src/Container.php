@@ -94,12 +94,8 @@ class Container extends \yii\di\Container implements contracts\Container {
      * @override
      */
     public function get($class, $params = [], $config = []) {
-        try {
-            $object = parent::get($class, $params, $config);
-        } catch (\Exception $e) {
-            $this->registerDelayedServiceProviders();
-            $object = parent::get($class, $params, $config);
-        }
+        $this->registerDelayedServiceProviders();
+        $object = parent::get($class, $params, $config);
 
         $this->runDecoratorsOnObject($class, $object);
 
