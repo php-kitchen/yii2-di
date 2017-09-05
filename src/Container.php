@@ -27,7 +27,7 @@ class Container extends \yii\di\Container implements contracts\Container {
      */
     protected $_serviceProviders;
     /**
-     * @var \SplQueue
+     * @var contracts\DelayedServiceProvider[]|\SplObjectStorage
      */
     protected $delayedServiceProviders;
     /**
@@ -37,7 +37,7 @@ class Container extends \yii\di\Container implements contracts\Container {
 
     public function init() {
         parent::init();
-        $this->delayedServiceProviders = new \SplQueue();
+        $this->delayedServiceProviders = new \SplObjectStorage();
     }
 
     public function addProvider($provider) {
@@ -94,7 +94,8 @@ class Container extends \yii\di\Container implements contracts\Container {
      * @override
      */
     public function get($class, $params = [], $config = []) {
-        $this->registerDelayedServiceProviders();
+        $this->registerDelayedServiceProviderFor($class);
+
         $object = parent::get($class, $params, $config);
 
         $this->runDecoratorsOnObject($class, $object);
@@ -102,19 +103,17 @@ class Container extends \yii\di\Container implements contracts\Container {
         return $object;
     }
 
-    protected function registerDelayedServiceProviders() {
+    protected function registerDelayedServiceProviderFor($classOrInterface) {
         $delayedServiceProviders = $this->delayedServiceProviders;
-        if ($delayedServiceProviders->isEmpty()) {
+        if ($delayedServiceProviders->count() === 0) {
             return;
         }
-        while (!$delayedServiceProviders->isEmpty()) {
-            /**
-             * @var $delayedServiceProvider ServiceProvider
-             */
-            $delayedServiceProvider = $delayedServiceProviders->dequeue();
-            $delayedServiceProvider = $this->ensureProviderIsObject($delayedServiceProvider);
-            $delayedServiceProvider->unDelay();
-            $this->registerServiceProvider($delayedServiceProvider);
+
+        foreach ($delayedServiceProviders as $delayedServiceProvider) {
+            if ($delayedServiceProvider->provides($classOrInterface)) {
+                $delayedServiceProvider->register();
+                $delayedServiceProviders->detach($delayedServiceProvider);
+            }
         }
     }
 
@@ -170,9 +169,9 @@ class Container extends \yii\di\Container implements contracts\Container {
     protected function registerServiceProvider(ServiceProvider $serviceProvider) {
         $serviceProvider = $this->ensureProviderIsObject($serviceProvider);
 
-        if (!($serviceProvider instanceof ServiceProvider)) {
+        if (!($serviceProvider instanceof contracts\ServiceProvider)) {
             throw new InvalidConfigException('Service provider should be an instance of ' . ServiceProvider::class);
-        } elseif ($serviceProvider->shouldBeDelayed()) {
+        } elseif ($serviceProvider instanceof contracts\DelayedServiceProvider) {
             $this->addDelayedServiceProvider($serviceProvider);
         } else {
             $serviceProvider->register();
@@ -180,7 +179,7 @@ class Container extends \yii\di\Container implements contracts\Container {
     }
 
     protected function addDelayedServiceProvider($provider) {
-        $this->delayedServiceProviders->enqueue($provider);
+        $this->delayedServiceProviders->attach($provider);
     }
 
     protected function ensureProviderIsObject($provider) {
