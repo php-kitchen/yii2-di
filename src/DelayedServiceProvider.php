@@ -23,7 +23,7 @@ abstract class DelayedServiceProvider extends ServiceProvider implements contrac
         return in_array($classOrInterface, $this->providedClasses);
     }
 
-    private function getProvidedClasses() {
+    protected function getProvidedClasses() {
         if (null === $this->_providedClasses) {
             $this->_providedClasses = $this->listProvidedClasses();
         }
