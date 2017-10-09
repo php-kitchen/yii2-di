@@ -1,6 +1,6 @@
 <?php
 
-namespace dekey\di;
+namespace PHPKitchen\DI;
 
 /**
  * Base class for service providers that should be delayed to register till services are
@@ -8,9 +8,9 @@ namespace dekey\di;
  *
  * @property array $providedClasses private alias of {@link _providedClasses}
  *
- * @package dekey\di
+ * @package PHPKitchen\DI
  */
-abstract class DelayedServiceProvider extends ServiceProvider implements contracts\DelayedServiceProvider {
+abstract class DelayedServiceProvider extends ServiceProvider implements Contracts\DelayedServiceProvider {
     private $_providedClasses;
 
     /**

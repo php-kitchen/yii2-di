@@ -1,7 +1,7 @@
 <?php
 namespace tests\stubs;
 
-use dekey\di\contracts\ObjectDecorator;
+use PHPKitchen\DI\Contracts\ObjectDecorator;
 
 /**
  * Represents a decorator of {@link ClassWithoutConstructor} being used for

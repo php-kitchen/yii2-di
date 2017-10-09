@@ -1,13 +1,13 @@
 <?php
 
-namespace dekey\di\autoload;
+namespace PHPKitchen\DI\Autoload;
 
 include __DIR__ . '/ClassGenerator.php';
 
 /**
  * Represents auto-loader that load virtual classes defined in IoC Container.
  *
- * @package dekey\di\autoload
+ * @package PHPKitchen\DI\autoload
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ClassLoader {

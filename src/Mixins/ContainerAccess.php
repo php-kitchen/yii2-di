@@ -1,15 +1,15 @@
 <?php
 
-namespace dekey\di\mixins;
+namespace PHPKitchen\DI\Mixins;
 
-use dekey\di\contracts\Container;
+use PHPKitchen\DI\Contracts\Container;
 
 /**
  * Injects DI container to target class.
  *
  * @property Container $container public alias of {@link _diContainer}
  *
- * @package dekey\di\mixins
+ * @package PHPKitchen\DI\mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait ContainerAccess {

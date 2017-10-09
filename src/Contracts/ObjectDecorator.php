@@ -6,14 +6,14 @@
  * Time: 14:26
  */
 
-namespace dekey\di\contracts;
+namespace PHPKitchen\DI\Contracts;
 
 /**
  * Represents decorator of any objects.
  *
  * @see https://sourcemaking.com/design_patterns/decorator
  *
- * @package dekey\di\contracts
+ * @package PHPKitchen\DI\contracts
  */
 interface ObjectDecorator {
     public function decorate($object);

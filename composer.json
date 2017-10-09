@@ -1,5 +1,5 @@
 {
-    "name": "dekeysoft/yii2-container",
+    "name": "php-kitchen/yii2-di",
     "description": "Advanced Dependency Injection container built on top of default Yii2 container.",
     "type": "library",
     "license": "MIT",
@@ -21,7 +21,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^5.6|^7.0",
+        "php": "7.1",
         "yiisoft/yii2": "^2.0"
     },
     "require-dev": {
@@ -31,7 +31,7 @@
     },
     "autoload": {
         "psr-4": {
-            "dekey\\di\\": "src",
+            "PHPKitchen\\DI\\": "src",
             "tests\\": "tests"
         }
     }

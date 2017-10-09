@@ -1,8 +1,8 @@
 <?php
-namespace dekey\di;
+namespace PHPKitchen\DI;
 
-use dekey\di\contracts\ContainerAware;
-use dekey\di\mixins\ContainerAccess;
+use PHPKitchen\DI\Contracts\ContainerAware;
+use PHPKitchen\DI\Mixins\ContainerAccess;
 use yii\base\Component;
 use yii\helpers\ArrayHelper;
 
@@ -68,7 +68,7 @@ class ClassFactory extends Component implements ContainerAware {
      *
      * @return object the created object
      * @throws \yii\base\InvalidConfigException if the configuration is invalid.
-     * @see \dekey\di\Container
+     * @see \PHPKitchen\DI\Container
      */
     public function create(array $config = []) {
         $container = $this->getContainer();
@@ -84,7 +84,7 @@ class ClassFactory extends Component implements ContainerAware {
      *
      * @return object the created object
      * @throws \yii\base\InvalidConfigException if the configuration is invalid.
-     * @see \dekey\di\Container
+     * @see \PHPKitchen\DI\Container
      */
     public function createWithConstructorParams(array $params, $config = []) {
         $definition = $this->prepareObjectDefinitionFromConfig($config);

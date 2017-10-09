@@ -1,7 +1,7 @@
 <?php
 namespace tests;
 
-use dekey\di\ClassFactory;
+use PHPKitchen\DI\ClassFactory;
 use tests\base\TestCase;
 use tests\stubs\ClassWithConstructor;
 use tests\stubs\ClassWithoutConstructor;
@@ -9,7 +9,7 @@ use tests\stubs\ClassWithoutConstructor;
 /**
  * Unit test for {@link ClassFactory}
  *
- * @coversDefaultClass \dekey\di\ClassFactory
+ * @coversDefaultClass \PHPKitchen\DI\ClassFactory
  *
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */

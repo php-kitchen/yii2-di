@@ -1,6 +1,6 @@
 <?php
 
-namespace dekey\di\contracts;
+namespace PHPKitchen\DI\Contracts;
 
 use yii\base\InvalidConfigException;
 
@@ -11,7 +11,7 @@ use yii\base\InvalidConfigException;
  * all their dependent objects. For more information about DI, please refer to
  * [Martin Fowler's article](http://martinfowler.com/articles/injection.html).
  *
- * @package dekey\di\contracts
+ * @package PHPKitchen\DI\contracts
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface Container {

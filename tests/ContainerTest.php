@@ -1,8 +1,8 @@
 <?php
 namespace tests;
 
-use dekey\di\ClassFactory;
-use dekey\di\Container;
+use PHPKitchen\DI\ClassFactory;
+use PHPKitchen\DI\Container;
 use tests\base\TestCase;
 use tests\stubs\ClassWithoutConstructor;
 use tests\stubs\ClassWithoutConstructorDecorator;
@@ -10,7 +10,7 @@ use tests\stubs\ClassWithoutConstructorDecorator;
 /**
  * Unit test for {@link Container}
  *
- * @coversDefaultClass \dekey\di\Container
+ * @coversDefaultClass \PHPKitchen\DI\Container
  *
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
@@ -56,7 +56,7 @@ class ContainerTest extends TestCase {
      * @covers ::addDecorator
      * @covers ::runDecoratorsOnObject
      * @covers ::isDecoratorsGroupRegistered
-     * @covers \dekey\di\contracts\ObjectDecorator::decorate
+     * @covers \PHPKitchen\DI\Contracts\ObjectDecorator::decorate
      */
     public function testAddDecoratorAndCreate() {
         $container = $this->createContainer();

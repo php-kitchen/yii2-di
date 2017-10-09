@@ -1,5 +1,5 @@
 <?php
-namespace dekey\di\contracts;
+namespace PHPKitchen\DI\Contracts;
 
 /**
  * Represents "Factory" pattern.

@@ -1,6 +1,6 @@
 <?php
 
-namespace dekey\di\autoload;
+namespace PHPKitchen\DI\Autoload;
 
 use Yii;
 
@@ -115,7 +115,7 @@ class ClassGenerator {
     }
 
     /**
-     * @return \dekey\di\Container
+     * @return \PHPKitchen\DI\Container
      */
     protected function getContainer() {
         return Yii::$container;

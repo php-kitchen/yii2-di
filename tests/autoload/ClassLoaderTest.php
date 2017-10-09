@@ -2,13 +2,13 @@
 
 namespace tests\autoload;
 
-use dekey\di\autoload\ClassLoader;
+use PHPKitchen\DI\Autoload\ClassLoader;
 use tests\base\VirtualClassGenerationTest;
 
 /**
  * Unit test for {@link ClassLoader}
  *
- * @coversDefaultClass \dekey\di\autoload\ClassLoader
+ * @coversDefaultClass \PHPKitchen\DI\autoload\ClassLoader
  *
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */

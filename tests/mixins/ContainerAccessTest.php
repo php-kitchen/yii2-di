@@ -1,8 +1,8 @@
 <?php
 namespace tests\mixins;
 
-use dekey\di\contracts\Container;
-use dekey\di\contracts\ContainerAware;
+use PHPKitchen\DI\Contracts\Container;
+use PHPKitchen\DI\Contracts\ContainerAware;
 
 use tests\base\TestCase;
 use tests\mixins\stubs\ObjectWithContainerAccess;
@@ -10,7 +10,7 @@ use tests\mixins\stubs\ObjectWithContainerAccess;
 /**
  * Unit test for {@link ContainerAccess}
  *
- * @coversDefaultClass \dekey\di\mixins\ContainerAccess
+ * @coversDefaultClass \PHPKitchen\DI\mixins\ContainerAccess
  *
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */

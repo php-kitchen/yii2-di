@@ -1,6 +1,6 @@
 <?php
 
-namespace dekey\di\mixins;
+namespace PHPKitchen\DI\Mixins;
 
 use core\app\Application;
 use yii\di\ServiceLocator;
@@ -11,7 +11,7 @@ use yii\di\ServiceLocator;
  *
  * @property ServiceLocator|\yii\base\Application $serviceLocator public alias of {@link _serviceLocator}
  *
- * @package dekey\di\mixins
+ * @package PHPKitchen\DI\mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait ServiceLocatorAccess {

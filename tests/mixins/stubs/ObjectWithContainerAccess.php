@@ -1,8 +1,8 @@
 <?php
 namespace tests\mixins\Stubs;
 
-use dekey\di\contracts\ContainerAware;
-use dekey\di\mixins\ContainerAccess;
+use PHPKitchen\DI\Contracts\ContainerAware;
+use PHPKitchen\DI\Mixins\ContainerAccess;
 
 class ObjectWithContainerAccess implements ContainerAware {
     use ContainerAccess;

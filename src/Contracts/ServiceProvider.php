@@ -1,6 +1,6 @@
 <?php
 
-namespace dekey\di\contracts;
+namespace PHPKitchen\DI\Contracts;
 
 /**
  * Represents a component responsible for services registration in DI container.
@@ -44,7 +44,7 @@ namespace dekey\di\contracts;
  * </pre>
  *
  *
- * @package dekey\di\contracts
+ * @package PHPKitchen\DI\contracts
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface ServiceProvider {

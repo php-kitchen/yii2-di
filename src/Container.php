@@ -1,8 +1,8 @@
 <?php
 
-namespace dekey\di;
+namespace PHPKitchen\DI;
 
-use dekey\di\contracts\ServiceProvider;
+use PHPKitchen\DI\Contracts\ServiceProvider;
 use yii\base\InvalidConfigException;
 
 /**
@@ -17,17 +17,17 @@ use yii\base\InvalidConfigException;
  * @package core\di
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class Container extends \yii\di\Container implements contracts\Container {
+class Container extends \yii\di\Container implements Contracts\Container {
     /**
-     * @var contracts\ObjectDecorator[]|array
+     * @var Contracts\ObjectDecorator[]|array
      */
     protected $_decorators;
     /**
-     * @var contracts\ServiceProvider[]|array
+     * @var Contracts\ServiceProvider[]|array
      */
     protected $_serviceProviders;
     /**
-     * @var contracts\DelayedServiceProvider[]|\SplObjectStorage
+     * @var Contracts\DelayedServiceProvider[]|\SplObjectStorage
      */
     protected $delayedServiceProviders;
     /**
@@ -169,9 +169,9 @@ class Container extends \yii\di\Container implements contracts\Container {
     protected function registerServiceProvider(ServiceProvider $serviceProvider) {
         $serviceProvider = $this->ensureProviderIsObject($serviceProvider);
 
-        if (!($serviceProvider instanceof contracts\ServiceProvider)) {
+        if (!($serviceProvider instanceof Contracts\ServiceProvider)) {
             throw new InvalidConfigException('Service provider should be an instance of ' . ServiceProvider::class);
-        } elseif ($serviceProvider instanceof contracts\DelayedServiceProvider) {
+        } elseif ($serviceProvider instanceof Contracts\DelayedServiceProvider) {
             $this->addDelayedServiceProvider($serviceProvider);
         } else {
             $serviceProvider->register();

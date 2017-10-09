@@ -2,8 +2,8 @@
 
 namespace tests\base;
 
-include __DIR__ . '/../../src/autoload/ClassLoader.php';
-use dekey\di\autoload\ClassGenerator;
+include __DIR__ . '/../../src/Autoload/ClassLoader.php';
+use PHPKitchen\DI\Autoload\ClassGenerator;
 use tests\stubs\ConfigurableClass;
 
 /**

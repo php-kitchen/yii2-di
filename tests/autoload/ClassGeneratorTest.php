@@ -8,7 +8,7 @@ use tests\stubs\ConfigurableClass;
 /**
  * Unit test for {@link ClassGenerator}
  *
- * @coversDefaultClass \dekey\di\autoload\ClassGenerator
+ * @coversDefaultClass \PHPKitchen\DI\autoload\ClassGenerator
  *
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */

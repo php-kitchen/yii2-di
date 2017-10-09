@@ -1,6 +1,6 @@
 <?php
 
-namespace dekey\di\contracts;
+namespace PHPKitchen\DI\Contracts;
 
 use yii\di\ServiceLocator;
 
@@ -9,7 +9,7 @@ use yii\di\ServiceLocator;
  *
  * @property ServiceLocator|\yii\base\Application $serviceLocator alias of getter and setter methods.
  *
- * @package dekey\di\contracts
+ * @package PHPKitchen\DI\contracts
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface ServiceLocatorAware {

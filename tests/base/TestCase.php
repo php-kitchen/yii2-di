@@ -11,7 +11,7 @@ use DeKey\Tester\TesterInitialization;
 class TestCase extends \PHPUnit\Framework\TestCase {
     use TesterInitialization;
     /**
-     * @var \dekey\di\Container
+     * @var \PHPKitchen\DI\Container
      */
     protected $container;
 

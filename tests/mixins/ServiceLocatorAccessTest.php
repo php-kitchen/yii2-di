@@ -1,7 +1,7 @@
 <?php
 namespace tests\mixins;
 
-use dekey\di\contracts\ServiceLocatorAware;
+use PHPKitchen\DI\Contracts\ServiceLocatorAware;
 use yii\di\ServiceLocator;
 use tests\base\TestCase;
 use tests\mixins\stubs\ObjectWithServiceLocatorAccess;
@@ -9,7 +9,7 @@ use tests\mixins\stubs\ObjectWithServiceLocatorAccess;
 /**
  * Unit test for {@link ServiceLocatorAccess}
  *
- * @coversDefaultClass \dekey\di\mixins\ServiceLocatorAccess
+ * @coversDefaultClass \PHPKitchen\DI\mixins\ServiceLocatorAccess
  *
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
