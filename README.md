@@ -34,6 +34,10 @@ spl_autoload_unregister([\PHPKitchen\DI\autoload\ClassLoader::class, 'loadClass'
 
 For additional information and guides go to the [project documentation](docs/README.md)
 
+## Contributing
+
+If you want to ask any questions, suggest improvements or just to talk with community and developers, [join our server at Discord](https://discord.gg/Ez5VZhC) 
+
 ## Build status
 
 CI status    | Code quality
