@@ -1,5 +1,6 @@
 <?php
-namespace tests\base;
+
+namespace PHPKitchen\DI\Tests\Base;
 
 use DeKey\Tester\TesterInitialization;
 

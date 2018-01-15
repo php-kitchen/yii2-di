@@ -1,5 +1,6 @@
 <?php
-namespace tests\stubs;
+
+namespace PHPKitchen\DI\Tests\Stubs;
 
 /**
  * Represents a stub being used for testing of {@link \PHPKitchen\DI\ClassFactory} functionality.

@@ -36,6 +36,7 @@ interface Container {
      * they appear in the constructor declaration. If you want to skip some parameters, you should index the remaining
      * ones with the integers that represent their positions in the constructor parameter list.
      * @param array $config a list of name-value pairs that will be used to initialize the object properties.
+     *
      * @return object an instance of the requested class.
      * @throws InvalidConfigException if the class cannot be recognized or correspond to an invalid definition
      */
@@ -101,6 +102,7 @@ interface Container {
      * - a string: a class name, an interface name or an alias name.
      * @param array $params the list of constructor parameters. The parameters will be passed to the class
      * constructor when [[get()]] is called.
+     *
      * @return $this the container itself
      */
     public function set($class, $definition = [], array $params = []);
@@ -115,6 +117,7 @@ interface Container {
      * @param mixed $definition the definition associated with `$class`. See [[set()]] for more details.
      * @param array $params the list of constructor parameters. The parameters will be passed to the class
      * constructor when [[get()]] is called.
+     *
      * @return $this the container itself
      * @see set()
      */
@@ -124,6 +127,7 @@ interface Container {
      * Returns a value indicating whether the container has the definition of the specified name.
      *
      * @param string $class class name, interface name or alias name
+     *
      * @return boolean whether the container has the definition of the specified name..
      * @see set()
      */
@@ -134,6 +138,7 @@ interface Container {
      *
      * @param string $class class name, interface name or alias name
      * @param boolean $checkInstance whether to check if the singleton has been instantiated.
+     *
      * @return boolean whether the given name corresponds to a registered singleton. If `$checkInstance` is true,
      * the method should return a value indicating whether the singleton has been instantiated.
      */
@@ -158,6 +163,7 @@ interface Container {
      *   The callable should return a new instance of the object being created.
      *
      * @param array $params the constructor parameters
+     *
      * @return object the created object
      * @throws InvalidConfigException if the configuration is invalid.
      */
@@ -168,6 +174,7 @@ interface Container {
      *
      * @param object $object the object to be configured
      * @param array $properties the property initial values given in terms of name-value pairs.
+     *
      * @return object the object itself
      */
     public function configureObject($object, $properties);
@@ -176,6 +183,7 @@ interface Container {
      * Returns the object definition or the loaded shared object.
      *
      * @param string $definitionName class or name of definition in container
+     *
      * @return array definition or empty array if definition not set.
      */
     public function getDefinitionOf($definitionName);
@@ -208,6 +216,7 @@ interface Container {
      * @param callable $callback callable to be invoked.
      * @param array $params The array of parameters for the function.
      * This can be either a list of parameters, or an associative array representing named function parameters.
+     *
      * @return mixed the callback return value.
      * @throws InvalidConfigException if a dependency cannot be resolved or if a dependency cannot be fulfilled.
      * @since 2.0.7
@@ -222,6 +231,7 @@ interface Container {
      *
      * @param callable $callback callable to be invoked.
      * @param array $params The array of parameters for the function, can be either numeric or associative.
+     *
      * @return array The resolved dependencies.
      * @throws InvalidConfigException if a dependency cannot be resolved or if a dependency cannot be fulfilled.
      * @since 2.0.7
@@ -237,6 +247,7 @@ interface Container {
 
     /**
      * @param mixed $class
+     *
      * @return Factory
      */
     public function createFactoryFor($class);

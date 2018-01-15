@@ -1,5 +1,6 @@
 <?php
-namespace tests\stubs;
+
+namespace PHPKitchen\DI\Tests\Stubs;
 
 use PHPKitchen\DI\Contracts\ObjectDecorator;
 

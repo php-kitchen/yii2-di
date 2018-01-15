@@ -1,11 +1,11 @@
 <?php
 
-namespace tests\stubs;
+namespace PHPKitchen\DI\Tests\Stubs;
 
 /**
  * Represents a base class that can be used for virtual types in container.
  *
- * @package tests\stubs
+ * @package PHPKitchen\DI\Tests\Stubs
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ConfigurableClass {

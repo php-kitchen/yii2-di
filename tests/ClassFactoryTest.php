@@ -1,10 +1,11 @@
 <?php
-namespace tests;
+
+namespace PHPKitchen\DI\Tests;
 
 use PHPKitchen\DI\ClassFactory;
-use tests\base\TestCase;
-use tests\stubs\ClassWithConstructor;
-use tests\stubs\ClassWithoutConstructor;
+use PHPKitchen\DI\Tests\Base\TestCase;
+use PHPKitchen\DI\Tests\Stubs\ClassWithConstructor;
+use PHPKitchen\DI\Tests\Stubs\ClassWithoutConstructor;
 
 /**
  * Unit test for {@link ClassFactory}
@@ -29,13 +30,13 @@ class ClassFactoryTest extends TestCase {
         $object = $factory->create();
 
         $this->tester->checksScenario('instantiating object without any configuration')
-            ->expectsThat('factory creates object of specified class without any configuration')
-            ->object($object)
-            ->isNotNull()
-            ->isInstanceOf(ClassWithoutConstructor::class)
-            ->and()
-            ->valueOf($object->property)
-            ->isNull();
+                     ->expectsThat('factory creates object of specified class without any configuration')
+                     ->object($object)
+                     ->isNotNull()
+                     ->isInstanceOf(ClassWithoutConstructor::class)
+                     ->and()
+                     ->valueOf($object->property)
+                     ->isNull();
     }
 
     /**
@@ -50,16 +51,16 @@ class ClassFactoryTest extends TestCase {
         $object = $factory->create(['property' => 1]);
 
         $this->tester->checksScenario('instantiating object with configuration passed to factory method')
-            ->expectsThat('factory creates object of specified class and applies passed configuration')
-            ->object($object)
-            ->isNotNull()
-            ->isInstanceOf(ClassWithoutConstructor::class)
-            ->and()
-            ->valueOf($object->property)
-            ->isEqualTo(1)
-            ->and()
-            ->valueOf($object->anotherProperty)
-            ->isNull();
+                     ->expectsThat('factory creates object of specified class and applies passed configuration')
+                     ->object($object)
+                     ->isNotNull()
+                     ->isInstanceOf(ClassWithoutConstructor::class)
+                     ->and()
+                     ->valueOf($object->property)
+                     ->isEqualTo(1)
+                     ->and()
+                     ->valueOf($object->anotherProperty)
+                     ->isNull();
     }
 
     /**
@@ -77,16 +78,16 @@ class ClassFactoryTest extends TestCase {
         $object = $factory->create(['anotherProperty' => 2]);
 
         $this->tester->checksScenario('instantiating object with configuration passed to factory method and specified as default')
-            ->expectsThat('factory creates object of specified class and applies default and passed configuration')
-            ->object($object)
-            ->isNotNull()
-            ->isInstanceOf(ClassWithoutConstructor::class)
-            ->and()
-            ->valueOf($object->property)
-            ->isEqualTo(1)
-            ->and()
-            ->valueOf($object->anotherProperty)
-            ->isEqualTo(2);
+                     ->expectsThat('factory creates object of specified class and applies default and passed configuration')
+                     ->object($object)
+                     ->isNotNull()
+                     ->isInstanceOf(ClassWithoutConstructor::class)
+                     ->and()
+                     ->valueOf($object->property)
+                     ->isEqualTo(1)
+                     ->and()
+                     ->valueOf($object->anotherProperty)
+                     ->isEqualTo(2);
     }
 
     /**
@@ -108,16 +109,16 @@ class ClassFactoryTest extends TestCase {
         $object = $factory->create();
 
         $this->tester->checksScenario('instantiating object with default configuration and default constructor params')
-            ->expectsThat('factory creates object of specified class and applies default configuration and default constructor params')
-            ->object($object)
-            ->isNotNull()
-            ->isInstanceOf(ClassWithConstructor::class)
-            ->and()
-            ->valueOf($object->property)
-            ->isEqualTo(1)
-            ->and()
-            ->valueOf($object->getDependency())
-            ->isEqualTo($dependency);
+                     ->expectsThat('factory creates object of specified class and applies default configuration and default constructor params')
+                     ->object($object)
+                     ->isNotNull()
+                     ->isInstanceOf(ClassWithConstructor::class)
+                     ->and()
+                     ->valueOf($object->property)
+                     ->isEqualTo(1)
+                     ->and()
+                     ->valueOf($object->getDependency())
+                     ->isEqualTo($dependency);
     }
 
     /**
@@ -143,15 +144,15 @@ class ClassFactoryTest extends TestCase {
         $object = $factory->createWithConstructorParams([$dependency]);
 
         $this->tester->checksScenario('instantiating object with specified default configuration and default constructor params and constructor params passed to factory method')
-            ->expectsThat('factory creates object of specified class and applies default configuration but overrides default constructor params by constructor params passed to factory method')
-            ->object($object)
-            ->isNotNull()
-            ->isInstanceOf(ClassWithConstructor::class)
-            ->and()
-            ->valueOf($object->property)
-            ->isEqualTo(1)
-            ->and()
-            ->valueOf($object->getDependency())
-            ->isEqualTo($dependency);
+                     ->expectsThat('factory creates object of specified class and applies default configuration but overrides default constructor params by constructor params passed to factory method')
+                     ->object($object)
+                     ->isNotNull()
+                     ->isInstanceOf(ClassWithConstructor::class)
+                     ->and()
+                     ->valueOf($object->property)
+                     ->isEqualTo(1)
+                     ->and()
+                     ->valueOf($object->getDependency())
+                     ->isEqualTo($dependency);
     }
 }

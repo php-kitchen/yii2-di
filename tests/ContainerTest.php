@@ -1,11 +1,12 @@
 <?php
-namespace tests;
+
+namespace PHPKitchen\DI\Tests;
 
 use PHPKitchen\DI\ClassFactory;
 use PHPKitchen\DI\Container;
-use tests\base\TestCase;
-use tests\stubs\ClassWithoutConstructor;
-use tests\stubs\ClassWithoutConstructorDecorator;
+use PHPKitchen\DI\Tests\Base\TestCase;
+use PHPKitchen\DI\Tests\Stubs\ClassWithoutConstructor;
+use PHPKitchen\DI\Tests\Stubs\ClassWithoutConstructorDecorator;
 
 /**
  * Unit test for {@link Container}
@@ -26,10 +27,10 @@ class ContainerTest extends TestCase {
         $container = $this->createContainer();
         $factory = $container->createFactoryFor(static::class);
         $this->tester->checksScenario('instantiating default factory')
-            ->expectsThat('container creates default factory for passed class')
-            ->object($factory)
-            ->isNotNull()
-            ->isInstanceOf(ClassFactory::class);
+                     ->expectsThat('container creates default factory for passed class')
+                     ->object($factory)
+                     ->isNotNull()
+                     ->isInstanceOf(ClassFactory::class);
     }
 
     /**
@@ -43,12 +44,12 @@ class ContainerTest extends TestCase {
             'anotherProperty' => 2,
         ]);
         $this->tester->checksScenario('instantiating default factory')
-            ->expectsThat('container configures given object with passed properties')
-            ->valueOf($object->property)
-            ->isEqualTo(1)
-            ->and()
-            ->valueOf($object->anotherProperty)
-            ->isEqualTo(2);
+                     ->expectsThat('container configures given object with passed properties')
+                     ->valueOf($object->property)
+                     ->isEqualTo(1)
+                     ->and()
+                     ->valueOf($object->anotherProperty)
+                     ->isEqualTo(2);
     }
 
     /**
@@ -64,12 +65,12 @@ class ContainerTest extends TestCase {
 
         $object = $container->create(ClassWithoutConstructor::class);
         $this->tester->checksScenario('registering decorator and instantiating object that should be decorated')
-            ->expectsThat('decorator initialized object properties')
-            ->valueOf($object->property)
-            ->isEqualTo(1)
-            ->and()
-            ->valueOf($object->anotherProperty)
-            ->isEqualTo(2);
+                     ->expectsThat('decorator initialized object properties')
+                     ->valueOf($object->property)
+                     ->isEqualTo(1)
+                     ->and()
+                     ->valueOf($object->anotherProperty)
+                     ->isEqualTo(2);
     }
 
     public function testRegisterServiceProvider() {
@@ -78,12 +79,12 @@ class ContainerTest extends TestCase {
 
         $object = $container->create(ClassWithoutConstructor::class);
         $this->tester->checksScenario('registering decorator and instantiating object that should be decorated')
-            ->expectsThat('decorator initialized object properties')
-            ->valueOf($object->property)
-            ->isEqualTo(1)
-            ->and()
-            ->valueOf($object->anotherProperty)
-            ->isEqualTo(2);
+                     ->expectsThat('decorator initialized object properties')
+                     ->valueOf($object->property)
+                     ->isEqualTo(1)
+                     ->and()
+                     ->valueOf($object->anotherProperty)
+                     ->isEqualTo(2);
     }
 
     protected function createContainer() {

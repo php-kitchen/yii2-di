@@ -1,6 +1,7 @@
 <?php
-namespace tests\autoload;
 
-class VirtualClass extends \tests\stubs\ConfigurableClass {
+namespace PHPKitchen\DI\Tests\autoload;
+
+class VirtualClass extends \PHPKitchen\DI\Tests\Stubs\ConfigurableClass {
 }
 

@@ -41,6 +41,7 @@ class ClassGenerator {
 
     public function isClassGenerated($class) {
         $classFileName = $this->buildClassFileName($class);
+
         return file_exists($classFileName);
     }
 
@@ -49,6 +50,7 @@ class ClassGenerator {
         $application = $this->getApplication();
         $runtimePath = $application ? $application->runtimePath : sys_get_temp_dir();
         $fullClassName = str_replace('\\', '_', "{$class}__{$baseClassName}");
+
         return "{$runtimePath}/{$fullClassName}.php";
     }
 
@@ -82,6 +84,7 @@ class ClassGenerator {
         } catch (\Exception $e) {
             $classCanBeExtended = false;
         }
+
         return $classCanBeExtended;
     }
 

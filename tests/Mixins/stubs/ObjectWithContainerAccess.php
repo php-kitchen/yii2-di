@@ -1,5 +1,6 @@
 <?php
-namespace tests\mixins\Stubs;
+
+namespace PHPKitchen\DI\Tests\Mixins\Stubs;
 
 use PHPKitchen\DI\Contracts\ContainerAware;
 use PHPKitchen\DI\Mixins\ContainerAccess;

@@ -6,6 +6,7 @@
  */
 ?>
 <?= "<?php" . PHP_EOL ?>
+
 <?php
 if ($namespaceName) {
     echo "namespace {$namespaceName};";

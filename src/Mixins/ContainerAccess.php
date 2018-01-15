@@ -22,6 +22,7 @@ trait ContainerAccess {
         if (!isset($this->_container)) {
             $this->initContainer();
         }
+
         return $this->_container;
     }
 

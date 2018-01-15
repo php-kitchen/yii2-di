@@ -1,4 +1,5 @@
 <?php
+
 namespace PHPKitchen\DI;
 
 use PHPKitchen\DI\Contracts\ContainerAware;
@@ -72,6 +73,7 @@ class ClassFactory extends Component implements ContainerAware {
      */
     public function create(array $config = []) {
         $container = $this->getContainer();
+
         return $container->create($this->prepareObjectDefinitionFromConfig($config), $this->getDefaultConstructorParams());
     }
 
@@ -88,6 +90,7 @@ class ClassFactory extends Component implements ContainerAware {
      */
     public function createWithConstructorParams(array $params, $config = []) {
         $definition = $this->prepareObjectDefinitionFromConfig($config);
+
         return $this->getContainer()->create($definition, $params);
     }
 
@@ -95,6 +98,7 @@ class ClassFactory extends Component implements ContainerAware {
         $definition = $this->getDefaultConfig();
         $definition = ArrayHelper::merge($definition, $config);
         $definition['class'] = $this->getClassName();
+
         return $definition;
     }
 

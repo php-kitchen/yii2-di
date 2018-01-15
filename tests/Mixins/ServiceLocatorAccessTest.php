@@ -1,10 +1,11 @@
 <?php
-namespace tests\mixins;
+
+namespace PHPKitchen\DI\Tests\Mixins;
 
 use PHPKitchen\DI\Contracts\ServiceLocatorAware;
+use PHPKitchen\DI\Tests\Base\TestCase;
+use PHPKitchen\DI\Tests\Mixins\stubs\ObjectWithServiceLocatorAccess;
 use yii\di\ServiceLocator;
-use tests\base\TestCase;
-use tests\mixins\stubs\ObjectWithServiceLocatorAccess;
 
 /**
  * Unit test for {@link ServiceLocatorAccess}
@@ -17,9 +18,9 @@ class ServiceLocatorAccessTest extends TestCase {
     public function testCreate() {
         $objectWithServiceLocatorAccess = $this->createObjectWithServiceLocatorAccess();
         $this->tester->checksScenario('instantiating object that use service locator access mixin')
-            ->expectsThat('object implements service locator aware interface ')
-            ->object($objectWithServiceLocatorAccess)
-            ->isInstanceOf(ServiceLocatorAware::class);
+                     ->expectsThat('object implements service locator aware interface ')
+                     ->object($objectWithServiceLocatorAccess)
+                     ->isInstanceOf(ServiceLocatorAware::class);
     }
 
     /**
@@ -31,10 +32,10 @@ class ServiceLocatorAccessTest extends TestCase {
         $objectWithServiceLocatorAccess = $this->createObjectWithServiceLocatorAccess();
         $container = $objectWithServiceLocatorAccess->getServiceLocator();
         $this->tester->checksScenario('acccessing service locator through service locator access mixin')
-            ->expectsThat('object initialize and return valid service locator that implements contract of service locator')
-            ->object($container)
-            ->isNotNull()
-            ->isInstanceOf(ServiceLocator::class);
+                     ->expectsThat('object initialize and return valid service locator that implements contract of service locator')
+                     ->object($container)
+                     ->isNotNull()
+                     ->isInstanceOf(ServiceLocator::class);
     }
 
     protected function createObjectWithServiceLocatorAccess() {

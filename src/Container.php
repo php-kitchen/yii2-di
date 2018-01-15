@@ -23,10 +23,6 @@ class Container extends \yii\di\Container implements Contracts\Container {
      */
     protected $_decorators;
     /**
-     * @var Contracts\ServiceProvider[]|array
-     */
-    protected $_serviceProviders;
-    /**
      * @var Contracts\DelayedServiceProvider[]|\SplObjectStorage
      */
     protected $delayedServiceProviders;
@@ -67,6 +63,7 @@ class Container extends \yii\di\Container implements Contracts\Container {
      *   The callable should return a new instance of the object being created.
      *
      * @param array $params the constructor parameters
+     *
      * @return object the created object
      * @throws InvalidConfigException if the configuration is invalid.
      * @see \yii\di\Container
@@ -122,6 +119,7 @@ class Container extends \yii\di\Container implements Contracts\Container {
      *
      * @param object $object the object to be configured
      * @param array $properties the property initial values given in terms of name-value pairs.
+     *
      * @return object the object itself
      */
     public function configureObject($object, $properties) {
@@ -134,10 +132,12 @@ class Container extends \yii\di\Container implements Contracts\Container {
 
     /**
      * @param string $definitionName class or name of definition in container
+     *
      * @return array definition or empty array if definition not set.
      */
     public function getDefinitionOf($definitionName) {
         $definitions = $this->getDefinitions();
+
         return isset($definitions[$definitionName]) ? $definitions[$definitionName] : [];
     }
 
@@ -159,14 +159,16 @@ class Container extends \yii\di\Container implements Contracts\Container {
 
     protected function isDecoratorsGroupRegistered($decoratorsGroup) {
         $objectName = is_object($decoratorsGroup) ? get_class($decoratorsGroup) : $decoratorsGroup;
+
         return isset($this->_decorators[$objectName]) && !empty($this->_decorators[$objectName]);
     }
 
     /**
      * @param ServiceProvider $serviceProvider
+     *
      * @throws InvalidConfigException
      */
-    protected function registerServiceProvider(ServiceProvider $serviceProvider) {
+    protected function registerServiceProvider($serviceProvider) {
         $serviceProvider = $this->ensureProviderIsObject($serviceProvider);
 
         if (!($serviceProvider instanceof Contracts\ServiceProvider)) {
@@ -186,6 +188,7 @@ class Container extends \yii\di\Container implements Contracts\Container {
         if (!is_object($provider)) {
             $provider = $this->create($provider);
         }
+
         return $provider;
     }
 

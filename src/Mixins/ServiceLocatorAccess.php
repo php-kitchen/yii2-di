@@ -24,6 +24,7 @@ trait ServiceLocatorAccess {
         if (!isset($this->_serviceLocator)) {
             $this->initServiceLocator();
         }
+
         return $this->_serviceLocator;
     }
 

@@ -25,6 +25,7 @@ class ClassLoader {
         if (null === self::$instance) {
             self::$instance = new static(new ClassGenerator());
         }
+
         return self::$instance;
     }
 
@@ -40,6 +41,7 @@ class ClassLoader {
 
     protected function tryToGetClassFileOrGenerate($class) {
         $generator = $this->classGenerator;
+
         return $generator->getClassFileNameIfExistOrGenerate($class);
     }
 }

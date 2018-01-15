@@ -34,6 +34,9 @@ spl_autoload_unregister([\PHPKitchen\DI\autoload\ClassLoader::class, 'loadClass'
 
 For additional information and guides go to the [project documentation](docs/README.md)
 
+## Upgrade from 0.9
+In 0.10 `yii\base\Object` changed to `yii\base\BaseObject` to support PHP 7.2 but it means that you need yii `2.0.13` and higher. 
+
 ## Contributing
 
 If you want to ask any questions, suggest improvements or just to talk with community and developers, [join our server at Discord](https://discord.gg/Ez5VZhC) 

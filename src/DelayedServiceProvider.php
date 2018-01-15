@@ -27,6 +27,7 @@ abstract class DelayedServiceProvider extends ServiceProvider implements Contrac
         if (null === $this->_providedClasses) {
             $this->_providedClasses = $this->listProvidedClasses();
         }
+
         return $this->_providedClasses;
     }
 }

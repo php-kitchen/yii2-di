@@ -1,9 +1,9 @@
 <?php
 
-namespace tests\autoload;
+namespace PHPKitchen\DI\Tests\Autoload;
 
 use PHPKitchen\DI\Autoload\ClassLoader;
-use tests\base\VirtualClassGenerationTest;
+use PHPKitchen\DI\Tests\Base\VirtualClassGenerationTest;
 
 /**
  * Unit test for {@link ClassLoader}
