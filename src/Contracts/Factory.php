@@ -10,7 +10,7 @@ namespace PHPKitchen\DI\Contracts;
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface Factory {
-    public function create();
+    public function create(): void;
 
-    public function setDefaultConfig($config);
+    public function setDefaultConfig(array $config): void;
 }

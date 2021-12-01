@@ -2,6 +2,8 @@
 
 namespace PHPKitchen\DI\Autoload;
 
+use Yii;
+
 include __DIR__ . '/ClassGenerator.php';
 
 /**
@@ -11,17 +13,14 @@ include __DIR__ . '/ClassGenerator.php';
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ClassLoader {
-    private static $instance;
-    /**
-     * @var ClassGenerator
-     */
-    private $classGenerator;
+    private static ?ClassLoader $instance = null;
+    private ClassGenerator $classGenerator;
 
     public function __construct($classGenerator) {
         $this->classGenerator = $classGenerator;
     }
 
-    public static function getInstance() {
+    public static function getInstance(): ClassLoader {
         if (null === self::$instance) {
             self::$instance = new static(new ClassGenerator());
         }
@@ -29,8 +28,8 @@ class ClassLoader {
         return self::$instance;
     }
 
-    public static function loadClass($className) {
-        if (!\Yii::$container) {
+    public static function loadClass($className): void {
+        if (!Yii::$container) {
             return;
         }
         $classFileName = self::getInstance()->tryToGetClassFileOrGenerate($className);

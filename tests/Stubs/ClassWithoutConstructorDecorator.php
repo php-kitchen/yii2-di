@@ -14,7 +14,7 @@ class ClassWithoutConstructorDecorator implements ObjectDecorator {
     /**
      * @param ClassWithoutConstructor $object
      */
-    public function decorate($object) {
+    public function decorate($object): void {
         $object->property = 1;
         $object->anotherProperty = 2;
     }

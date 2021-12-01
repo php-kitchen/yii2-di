@@ -4,7 +4,7 @@ namespace PHPKitchen\DI\Tests\Mixins;
 
 use PHPKitchen\DI\Contracts\ServiceLocatorAware;
 use PHPKitchen\DI\Tests\Base\TestCase;
-use PHPKitchen\DI\Tests\Mixins\stubs\ObjectWithServiceLocatorAccess;
+use PHPKitchen\DI\Tests\Mixins\Stubs\ObjectWithServiceLocatorAccess;
 use yii\di\ServiceLocator;
 
 /**
@@ -15,11 +15,11 @@ use yii\di\ServiceLocator;
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ServiceLocatorAccessTest extends TestCase {
-    public function testCreate() {
+    public function testCreate(): void {
         $objectWithServiceLocatorAccess = $this->createObjectWithServiceLocatorAccess();
-        $this->tester->checksScenario('instantiating object that use service locator access mixin')
-                     ->expectsThat('object implements service locator aware interface ')
-                     ->object($objectWithServiceLocatorAccess)
+        $this->tester->describe('instantiating object that use service locator access mixin')
+                     ->expectThat('object implements service locator aware interface ')
+                     ->seeObject($objectWithServiceLocatorAccess)
                      ->isInstanceOf(ServiceLocatorAware::class);
     }
 
@@ -28,17 +28,17 @@ class ServiceLocatorAccessTest extends TestCase {
      * @covers ::initServiceLocator
      * @covers ::setServiceLocator
      */
-    public function testGet() {
+    public function testGet(): void {
         $objectWithServiceLocatorAccess = $this->createObjectWithServiceLocatorAccess();
         $container = $objectWithServiceLocatorAccess->getServiceLocator();
-        $this->tester->checksScenario('acccessing service locator through service locator access mixin')
-                     ->expectsThat('object initialize and return valid service locator that implements contract of service locator')
-                     ->object($container)
+        $this->tester->describe('acccessing service locator through service locator access mixin')
+                     ->expectThat('object initialize and return valid service locator that implements contract of service locator')
+                     ->seeObject($container)
                      ->isNotNull()
                      ->isInstanceOf(ServiceLocator::class);
     }
 
-    protected function createObjectWithServiceLocatorAccess() {
+    protected function createObjectWithServiceLocatorAccess(): ObjectWithServiceLocatorAccess {
         return new ObjectWithServiceLocatorAccess();
     }
 }

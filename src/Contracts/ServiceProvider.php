@@ -6,8 +6,8 @@ namespace PHPKitchen\DI\Contracts;
  * Represents a component responsible for services registration in DI container.
  * The goal of service providers is to centralize and organize in one place
  * registration of services bound by any logic or services with complex dependencies.
- * For example you can have a service that requires several dependencies and those dependencies
- * also have their dependencies. You can simply organize registration of service and it's dependencies
+ * For example, you can have a service that requires several dependencies and those dependencies
+ * also have their dependencies. You can simply organize registration of service, and it's dependencies
  * in a single provider class except creating bootstrap file or configuration array for container. Pseudocode might look
  * like:
  * <pre>

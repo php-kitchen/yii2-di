@@ -11,7 +11,7 @@ namespace PHPKitchen\DI\Contracts;
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface ContainerAware {
-    public function getContainer();
+    public function getContainer(): Container;
 
     public function setContainer(Container $container);
 }

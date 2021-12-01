@@ -16,5 +16,5 @@ namespace PHPKitchen\DI\Contracts;
  * @package PHPKitchen\DI\contracts
  */
 interface ObjectDecorator {
-    public function decorate($object);
+    public function decorate($object): void;
 }

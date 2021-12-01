@@ -1,16 +1,31 @@
 language: php
 
+language: php
+dist: trusty
 php:
-  - '7.1'
-  - '7.2'
+  - 7.4
+  - 8.0
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: 8.0
+
+# faster builds on new travis setup not using sudo
+sudo: false
+
+# cache vendor dirs
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+install:
+  - travis_retry composer self-update && composer --version
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - travis_retry composer global require hirak/prestissimo
+  - travis_retry composer install --prefer-dist --no-interaction
 
 before_script:
-  - composer self-update
-  - composer install --prefer-source --no-interaction --dev
   - mkdir -p build/logs
-  - chmod -Rf 0777 tests/runtime
-  - pwd
-  - ls
 
 script:
- - php vendor/bin/phpunit --configuration tests/phpunit.xml --coverage-clover build/logs/clover.xml tests
+  - php vendor/bin/phpunit --configuration tests/phpunit.xml --coverage-clover build/logs/clover.xml tests

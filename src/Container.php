@@ -3,14 +3,15 @@
 namespace PHPKitchen\DI;
 
 use PHPKitchen\DI\Contracts\ServiceProvider;
+use SplObjectStorage;
 use yii\base\InvalidConfigException;
 
 /**
  * Represents advanced Dependency Injection container.
  *
  * Provides such features as:
- * - decorators: allows to decorate objects without affecting their container definitions.
- * - service providers: allows to group complex dependencies definitions in a single class that bootstraps
+ * - decorators: allows decorating objects without affecting their container definitions.
+ * - service providers: allows grouping complex dependencies definitions in a single class that bootstraps
  * service or services.
  * - factories: generate factories for classes dynamically.
  *
@@ -21,30 +22,36 @@ class Container extends \yii\di\Container implements Contracts\Container {
     /**
      * @var Contracts\ObjectDecorator[]|array
      */
-    protected $_decorators;
+    protected array $_decorators;
     /**
-     * @var Contracts\DelayedServiceProvider[]|\SplObjectStorage
+     * @var Contracts\DelayedServiceProvider[]|SplObjectStorage
      */
     protected $delayedServiceProviders;
     /**
      * @var string default class for factory.
      */
-    public $factoryClass = ClassFactory::class;
+    public string $factoryClass = ClassFactory::class;
 
-    public function init() {
+    public function init(): void {
         parent::init();
-        $this->delayedServiceProviders = new \SplObjectStorage();
+        $this->delayedServiceProviders = new SplObjectStorage();
     }
 
-    public function addProvider($provider) {
+    /**
+     * @throws InvalidConfigException
+     */
+    public function addProvider($provider): void {
         $this->registerServiceProvider($provider);
     }
 
-    public function addDecorator($objectName, $decorator) {
+    public function addDecorator($objectName, $decorator): void {
         $this->_decorators[$objectName][] = $decorator;
     }
 
-    public function createFactoryFor($class) {
+    /**
+     * @throws InvalidConfigException
+     */
+    public function createFactoryFor(string $class): object {
         return $this->create([
             'class' => $this->factoryClass,
             'className' => $class,
@@ -64,7 +71,7 @@ class Container extends \yii\di\Container implements Contracts\Container {
      *
      * @param array $params the constructor parameters
      *
-     * @return object the created object
+     * @return object|string the created object
      * @throws InvalidConfigException if the configuration is invalid.
      * @see \yii\di\Container
      */
@@ -100,7 +107,7 @@ class Container extends \yii\di\Container implements Contracts\Container {
         return $object;
     }
 
-    protected function registerDelayedServiceProviderFor($classOrInterface) {
+    protected function registerDelayedServiceProviderFor($classOrInterface): void {
         $delayedServiceProviders = $this->delayedServiceProviders;
         if ($delayedServiceProviders->count() === 0) {
             return;
@@ -122,7 +129,7 @@ class Container extends \yii\di\Container implements Contracts\Container {
      *
      * @return object the object itself
      */
-    public function configureObject($object, $properties) {
+    public function configureObject(object $object, array $properties): object {
         foreach ($properties as $name => $value) {
             $object->$name = $value;
         }
@@ -135,19 +142,22 @@ class Container extends \yii\di\Container implements Contracts\Container {
      *
      * @return array definition or empty array if definition not set.
      */
-    public function getDefinitionOf($definitionName) {
+    public function getDefinitionOf(string $definitionName): array {
         $definitions = $this->getDefinitions();
 
-        return isset($definitions[$definitionName]) ? $definitions[$definitionName] : [];
+        return $definitions[$definitionName] ?? [];
     }
 
-    protected function runDecoratorsOnObject($decoratorsGroupName, $object) {
+    /**
+     * @throws InvalidConfigException
+     */
+    protected function runDecoratorsOnObject($decoratorsGroupName, $object): void {
         if (!$this->isDecoratorsGroupRegistered($decoratorsGroupName)) {
             return;
         }
         foreach ($this->_decorators[$decoratorsGroupName] as &$decorator) {
             if (is_callable($decorator)) {
-                call_user_func($decorator, $object);
+                $decorator($object);
                 continue;
             }
             if (!is_object($decorator)) {
@@ -157,18 +167,18 @@ class Container extends \yii\di\Container implements Contracts\Container {
         }
     }
 
-    protected function isDecoratorsGroupRegistered($decoratorsGroup) {
+    protected function isDecoratorsGroupRegistered($decoratorsGroup): bool {
         $objectName = is_object($decoratorsGroup) ? get_class($decoratorsGroup) : $decoratorsGroup;
 
         return isset($this->_decorators[$objectName]) && !empty($this->_decorators[$objectName]);
     }
 
     /**
-     * @param ServiceProvider $serviceProvider
+     * @param ServiceProvider|array $serviceProvider
      *
      * @throws InvalidConfigException
      */
-    protected function registerServiceProvider($serviceProvider) {
+    protected function registerServiceProvider($serviceProvider): void {
         $serviceProvider = $this->ensureProviderIsObject($serviceProvider);
 
         if (!($serviceProvider instanceof Contracts\ServiceProvider)) {
@@ -180,11 +190,14 @@ class Container extends \yii\di\Container implements Contracts\Container {
         }
     }
 
-    protected function addDelayedServiceProvider($provider) {
+    protected function addDelayedServiceProvider($provider): void {
         $this->delayedServiceProviders->attach($provider);
     }
 
-    protected function ensureProviderIsObject($provider) {
+    /**
+     * @throws InvalidConfigException
+     */
+    protected function ensureProviderIsObject($provider): ServiceProvider {
         if (!is_object($provider)) {
             $provider = $this->create($provider);
         }
@@ -194,13 +207,16 @@ class Container extends \yii\di\Container implements Contracts\Container {
 
     //region ---------------------- SETTERS -------------------------------
 
-    public function setDecorators($name, array $decorators) {
+    public function setDecorators(string $name, array $decorators): void {
         foreach ($decorators as $decorator) {
             $this->addDecorator($name, $decorator);
         }
     }
 
-    public function setServiceProviders(array $serviceProviders) {
+    /**
+     * @throws InvalidConfigException
+     */
+    public function setServiceProviders(array $serviceProviders): void {
         foreach ($serviceProviders as $serviceProvider) {
             $this->registerServiceProvider($serviceProvider);
         }

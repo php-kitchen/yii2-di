@@ -5,7 +5,7 @@ namespace PHPKitchen\DI\Tests\Mixins;
 use PHPKitchen\DI\Contracts\Container;
 use PHPKitchen\DI\Contracts\ContainerAware;
 use PHPKitchen\DI\Tests\Base\TestCase;
-use PHPKitchen\DI\Tests\Mixins\stubs\ObjectWithContainerAccess;
+use PHPKitchen\DI\Tests\Mixins\Stubs\ObjectWithContainerAccess;
 
 /**
  * Unit test for {@link ContainerAccess}
@@ -15,11 +15,11 @@ use PHPKitchen\DI\Tests\Mixins\stubs\ObjectWithContainerAccess;
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ContainerAccessTest extends TestCase {
-    public function testCreate() {
+    public function testCreate(): void {
         $objectWithContainerAccess = $this->createObjectWithContainerAccess();
-        $this->tester->checksScenario('instantiating object that use container access mixin')
-                     ->expectsThat('object implements container aware interface ')
-                     ->object($objectWithContainerAccess)
+        $this->tester->describe('instantiating object that use container access mixin')
+                     ->expectThat('object implements container aware interface ')
+                     ->seeObject($objectWithContainerAccess)
                      ->isInstanceOf(ContainerAware::class);
     }
 
@@ -28,17 +28,17 @@ class ContainerAccessTest extends TestCase {
      * @covers ::initContainer
      * @covers ::setContainer
      */
-    public function testGet() {
+    public function testGet(): void {
         $objectWithContainerAccess = $this->createObjectWithContainerAccess();
         $container = $objectWithContainerAccess->getContainer();
-        $this->tester->checksScenario('acccessing container through container access mixin')
-                     ->expectsThat('object initialize return valid container that implements contract of container')
-                     ->object($container)
+        $this->tester->describe('acccessing container through container access mixin')
+                     ->expectThat('object initialize return valid container that implements contract of container')
+                     ->seeObject($container)
                      ->isNotNull()
                      ->isInstanceOf(Container::class);
     }
 
-    protected function createObjectWithContainerAccess() {
+    protected function createObjectWithContainerAccess(): ObjectWithContainerAccess {
         return new ObjectWithContainerAccess();
     }
 }

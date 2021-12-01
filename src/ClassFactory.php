@@ -5,6 +5,7 @@ namespace PHPKitchen\DI;
 use PHPKitchen\DI\Contracts\ContainerAware;
 use PHPKitchen\DI\Mixins\ContainerAccess;
 use yii\base\Component;
+use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -29,7 +30,7 @@ use yii\helpers\ArrayHelper;
  *  $configuredService = $factory->create(['myAnotherAwesomeProperty' => 31]);
  *
  *  // Instantiation of an object with custom constructor params. Note: params  won't be merged wit default
- *  $serviceWithCustomConstructoParams = $factory->create([
+ *  $serviceWithCustomConstructorParams = $factory->create([
  *      new \yii\db\Connection([
  *          // custom DB connection config
  *      ]),
@@ -48,18 +49,18 @@ class ClassFactory extends Component implements ContainerAware {
     /**
      * @var string a class factory should instantiate.
      */
-    protected $_className;
+    protected string $_className;
     /**
      * @var array a configuration array of the name-value pairs that will be used to initialize
      * the corresponding object default properties. This config may be overridden by configuration
      * passed to specific methods.
      */
-    protected $_defaultConfig = [];
+    protected array $_defaultConfig = [];
     /**
      * @var array default constructor parameters. If not specified container will handle constructor params instantiation if needed.
      * This config may be overridden by params configuration passed to {@link createWithConstructorParams}
      */
-    protected $_defaultConstructorParams = [];
+    protected array $_defaultConstructorParams = [];
 
     /**
      * Creates a new object using the given configuration.
@@ -68,10 +69,10 @@ class ClassFactory extends Component implements ContainerAware {
      * the corresponding object properties
      *
      * @return object the created object
-     * @throws \yii\base\InvalidConfigException if the configuration is invalid.
+     * @throws InvalidConfigException if the configuration is invalid.
      * @see \PHPKitchen\DI\Container
      */
-    public function create(array $config = []) {
+    public function create(array $config = []): object {
         $container = $this->getContainer();
 
         return $container->create($this->prepareObjectDefinitionFromConfig($config), $this->getDefaultConstructorParams());
@@ -85,16 +86,16 @@ class ClassFactory extends Component implements ContainerAware {
      * the corresponding object properties
      *
      * @return object the created object
-     * @throws \yii\base\InvalidConfigException if the configuration is invalid.
+     * @throws InvalidConfigException if the configuration is invalid.
      * @see \PHPKitchen\DI\Container
      */
-    public function createWithConstructorParams(array $params, $config = []) {
+    public function createWithConstructorParams(array $params, array $config = []): object {
         $definition = $this->prepareObjectDefinitionFromConfig($config);
 
         return $this->getContainer()->create($definition, $params);
     }
 
-    protected function prepareObjectDefinitionFromConfig($config) {
+    protected function prepareObjectDefinitionFromConfig(array $config): array {
         $definition = $this->getDefaultConfig();
         $definition = ArrayHelper::merge($definition, $config);
         $definition['class'] = $this->getClassName();
@@ -104,27 +105,27 @@ class ClassFactory extends Component implements ContainerAware {
 
     // GETTERS/SETTERS
 
-    public function getClassName() {
+    public function getClassName(): string {
         return $this->_className;
     }
 
-    public function setClassName($className) {
+    public function setClassName($className): void {
         $this->_className = $className;
     }
 
-    public function getDefaultConfig() {
+    public function getDefaultConfig(): array {
         return $this->_defaultConfig;
     }
 
-    public function setDefaultConfig(array $defaultConfig) {
+    public function setDefaultConfig(array $defaultConfig): void {
         $this->_defaultConfig = $defaultConfig;
     }
 
-    public function getDefaultConstructorParams() {
+    public function getDefaultConstructorParams(): array {
         return $this->_defaultConstructorParams;
     }
 
-    public function setDefaultConstructorParams(array $defaultConstructorArguments) {
+    public function setDefaultConstructorParams(array $defaultConstructorArguments): void {
         $this->_defaultConstructorParams = $defaultConstructorArguments;
     }
 }

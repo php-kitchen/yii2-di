@@ -2,29 +2,32 @@
 
 namespace PHPKitchen\DI\Tests\Base;
 
-use DeKey\Tester\TesterInitialization;
+use PHPKitchen\CodeSpecs\Mixin\TesterInitialization;
+use PHPKitchen\DI\Container;
+use Yii;
 
 /**
- * Represents base class for all of the test cases.
+ * Represents base class for all the test cases.
  *
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class TestCase extends \PHPUnit\Framework\TestCase {
     use TesterInitialization;
+
     /**
-     * @var \PHPKitchen\DI\Container
+     * @var Container
      */
     protected $container;
 
-    protected function setUp() {
-        $this->container = \Yii::$container;
+    protected function setUp(): void {
+        $this->container = Yii::$container;
         parent::setUp();
     }
 
     /**
      * @before
      */
-    protected function configureApplication() {
-        \Yii::$app->runtimePath = __DIR__ . '/../runtime';
+    protected function configureApplication(): void {
+        Yii::$app->runtimePath = __DIR__ . '/../runtime';
     }
 }

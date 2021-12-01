@@ -11,19 +11,19 @@ namespace PHPKitchen\DI;
  * @package PHPKitchen\DI
  */
 abstract class DelayedServiceProvider extends ServiceProvider implements Contracts\DelayedServiceProvider {
-    private $_providedClasses;
+    private ?array $_providedClasses = null;
 
     /**
      *
      * @return array list of classes provided
      */
-    abstract protected function listProvidedClasses();
+    abstract protected function listProvidedClasses(): array;
 
-    public function provides($classOrInterface) {
-        return in_array($classOrInterface, $this->providedClasses);
+    public function provides($classOrInterface): bool {
+        return in_array($classOrInterface, $this->providedClasses, true);
     }
 
-    protected function getProvidedClasses() {
+    protected function getProvidedClasses(): array {
         if (null === $this->_providedClasses) {
             $this->_providedClasses = $this->listProvidedClasses();
         }

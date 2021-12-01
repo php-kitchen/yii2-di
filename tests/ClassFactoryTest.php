@@ -6,6 +6,7 @@ use PHPKitchen\DI\ClassFactory;
 use PHPKitchen\DI\Tests\Base\TestCase;
 use PHPKitchen\DI\Tests\Stubs\ClassWithConstructor;
 use PHPKitchen\DI\Tests\Stubs\ClassWithoutConstructor;
+use yii\base\InvalidConfigException;
 
 /**
  * Unit test for {@link ClassFactory}
@@ -15,27 +16,29 @@ use PHPKitchen\DI\Tests\Stubs\ClassWithoutConstructor;
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ClassFactoryTest extends TestCase {
-    public function testConstructor() {
+    public function testConstructor(): void {
         $factory = new ClassFactory();
+        $this->tester->seeObject($factory)
+                     ->isInstanceOf(ClassFactory::class);
     }
 
     /**
      * @covers ::setClassName
      * @covers ::getClassName
      * @covers ::create
+     * @throws InvalidConfigException
      */
-    public function testCreate() {
+    public function testCreate(): void {
         $factory = new ClassFactory();
         $factory->setClassName(ClassWithoutConstructor::class);
         $object = $factory->create();
 
-        $this->tester->checksScenario('instantiating object without any configuration')
-                     ->expectsThat('factory creates object of specified class without any configuration')
-                     ->object($object)
+        $this->tester->describe('instantiating object without any configuration')
+                     ->expectThat('factory creates object of specified class without any configuration')
+                     ->seeObject($object)
                      ->isNotNull()
-                     ->isInstanceOf(ClassWithoutConstructor::class)
-                     ->and()
-                     ->valueOf($object->property)
+                     ->isInstanceOf(ClassWithoutConstructor::class);
+        $this->tester->see($object->property)
                      ->isNull();
     }
 
@@ -50,16 +53,14 @@ class ClassFactoryTest extends TestCase {
         $factory->setClassName(ClassWithoutConstructor::class);
         $object = $factory->create(['property' => 1]);
 
-        $this->tester->checksScenario('instantiating object with configuration passed to factory method')
-                     ->expectsThat('factory creates object of specified class and applies passed configuration')
-                     ->object($object)
+        $this->tester->describe('instantiating object with configuration passed to factory method')
+                     ->expectThat('factory creates object of specified class and applies passed configuration')
+                     ->seeObject($object)
                      ->isNotNull()
-                     ->isInstanceOf(ClassWithoutConstructor::class)
-                     ->and()
-                     ->valueOf($object->property)
-                     ->isEqualTo(1)
-                     ->and()
-                     ->valueOf($object->anotherProperty)
+                     ->isInstanceOf(ClassWithoutConstructor::class);
+        $this->tester->see($object->property)
+                     ->isEqualTo(1);
+        $this->tester->see($object->anotherProperty)
                      ->isNull();
     }
 
@@ -77,16 +78,14 @@ class ClassFactoryTest extends TestCase {
         $factory->setDefaultConfig(['property' => 1]);
         $object = $factory->create(['anotherProperty' => 2]);
 
-        $this->tester->checksScenario('instantiating object with configuration passed to factory method and specified as default')
-                     ->expectsThat('factory creates object of specified class and applies default and passed configuration')
-                     ->object($object)
+        $this->tester->describe('instantiating object with configuration passed to factory method and specified as default')
+                     ->expectThat('factory creates object of specified class and applies default and passed configuration')
+                     ->seeObject($object)
                      ->isNotNull()
-                     ->isInstanceOf(ClassWithoutConstructor::class)
-                     ->and()
-                     ->valueOf($object->property)
-                     ->isEqualTo(1)
-                     ->and()
-                     ->valueOf($object->anotherProperty)
+                     ->isInstanceOf(ClassWithoutConstructor::class);
+        $this->tester->see($object->property)
+                     ->isEqualTo(1);
+        $this->tester->see($object->anotherProperty)
                      ->isEqualTo(2);
     }
 
@@ -108,16 +107,14 @@ class ClassFactoryTest extends TestCase {
         $factory->setDefaultConstructorParams([$dependency]);
         $object = $factory->create();
 
-        $this->tester->checksScenario('instantiating object with default configuration and default constructor params')
-                     ->expectsThat('factory creates object of specified class and applies default configuration and default constructor params')
-                     ->object($object)
+        $this->tester->describe('instantiating object with default configuration and default constructor params')
+                     ->expectThat('factory creates object of specified class and applies default configuration and default constructor params')
+                     ->seeObject($object)
                      ->isNotNull()
-                     ->isInstanceOf(ClassWithConstructor::class)
-                     ->and()
-                     ->valueOf($object->property)
-                     ->isEqualTo(1)
-                     ->and()
-                     ->valueOf($object->getDependency())
+                     ->isInstanceOf(ClassWithConstructor::class);
+        $this->tester->see($object->property)
+                     ->isEqualTo(1);
+        $this->tester->see($object->getDependency())
                      ->isEqualTo($dependency);
     }
 
@@ -143,16 +140,14 @@ class ClassFactoryTest extends TestCase {
         $dependency->anotherProperty = 45;
         $object = $factory->createWithConstructorParams([$dependency]);
 
-        $this->tester->checksScenario('instantiating object with specified default configuration and default constructor params and constructor params passed to factory method')
-                     ->expectsThat('factory creates object of specified class and applies default configuration but overrides default constructor params by constructor params passed to factory method')
-                     ->object($object)
+        $this->tester->describe('instantiating object with specified default configuration and default constructor params and constructor params passed to factory method')
+                     ->expectThat('factory creates object of specified class and applies default configuration but overrides default constructor params by constructor params passed to factory method')
+                     ->seeObject($object)
                      ->isNotNull()
-                     ->isInstanceOf(ClassWithConstructor::class)
-                     ->and()
-                     ->valueOf($object->property)
-                     ->isEqualTo(1)
-                     ->and()
-                     ->valueOf($object->getDependency())
+                     ->isInstanceOf(ClassWithConstructor::class);
+        $this->tester->see($object->property)
+                     ->isEqualTo(1);
+        $this->tester->see($object->getDependency())
                      ->isEqualTo($dependency);
     }
 }

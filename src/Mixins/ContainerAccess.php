@@ -3,6 +3,7 @@
 namespace PHPKitchen\DI\Mixins;
 
 use PHPKitchen\DI\Contracts\Container;
+use Yii;
 
 /**
  * Injects DI container to target class.
@@ -13,12 +14,9 @@ use PHPKitchen\DI\Contracts\Container;
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait ContainerAccess {
-    /**
-     * @var Container
-     */
-    protected $_container;
+    protected ?Container $_container = null;
 
-    public function getContainer() {
+    public function getContainer(): Container {
         if (!isset($this->_container)) {
             $this->initContainer();
         }
@@ -26,11 +24,11 @@ trait ContainerAccess {
         return $this->_container;
     }
 
-    public function setContainer(Container $container) {
+    public function setContainer(Container $container): void {
         $this->_container = $container;
     }
 
-    protected function initContainer() {
-        $this->setContainer(\Yii::$container);
+    protected function initContainer(): void {
+        $this->setContainer(Yii::$container);
     }
 }

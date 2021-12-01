@@ -9,13 +9,13 @@ namespace PHPKitchen\DI\Tests\Stubs;
  */
 class ClassWithConstructor {
     public $property;
-    protected $dependency;
+    protected ClassWithoutConstructor $dependency;
 
     public function __construct(ClassWithoutConstructor $dependency) {
         $this->dependency = $dependency;
     }
 
-    public function getDependency() {
+    public function getDependency(): ClassWithoutConstructor {
         return $this->dependency;
     }
 }

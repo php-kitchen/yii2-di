@@ -2,6 +2,9 @@
 
 namespace PHPKitchen\DI\Autoload;
 
+use Exception;
+use PHPKitchen\DI\Container;
+use ReflectionClass;
 use Yii;
 
 /**
@@ -20,11 +23,11 @@ class ClassGenerator {
         return $fileName;
     }
 
-    protected function canClassBeGenerated($class) {
+    protected function canClassBeGenerated($class): bool {
         return $this->extractBaseClassFromDefinitionOf($class) !== false;
     }
 
-    public function generateClassFileIfNotExist($class) {
+    public function generateClassFileIfNotExist($class): bool {
         if ($this->isClassNotGenerated($class)) {
             $baseClassName = $this->extractBaseClassFromDefinitionOf($class);
             $isClassGenerated = $baseClassName && $this->tryToGenerateClass($class, $baseClassName);
@@ -35,20 +38,20 @@ class ClassGenerator {
         return $isClassGenerated;
     }
 
-    public function isClassNotGenerated($class) {
+    public function isClassNotGenerated($class): bool {
         return !$this->isClassGenerated($class);
     }
 
-    public function isClassGenerated($class) {
+    public function isClassGenerated($class): bool {
         $classFileName = $this->buildClassFileName($class);
 
         return file_exists($classFileName);
     }
 
-    public function buildClassFileName($class) {
+    public function buildClassFileName($class): string {
         $baseClassName = $this->extractBaseClassFromDefinitionOf($class);
         $application = $this->getApplication();
-        $runtimePath = $application ? $application->runtimePath : sys_get_temp_dir();
+        $runtimePath = $application->runtimePath ?? sys_get_temp_dir();
         $fullClassName = str_replace('\\', '_', "{$class}__{$baseClassName}");
 
         return "{$runtimePath}/{$fullClassName}.php";
@@ -77,11 +80,11 @@ class ClassGenerator {
         return $classCanBeExtended ? $this->generateClassFromTemplate($class, $baseClass) : false;
     }
 
-    protected function checkWhetherClassCanBeExtended($class) {
+    protected function checkWhetherClassCanBeExtended($class): bool {
         try {
-            $baseClassReflection = new \ReflectionClass($class);
+            $baseClassReflection = new ReflectionClass($class);
             $classCanBeExtended = !($baseClassReflection->isFinal() || $baseClassReflection->isInterface());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $classCanBeExtended = false;
         }
 
@@ -95,7 +98,7 @@ class ClassGenerator {
         return file_put_contents($this->buildClassFileName($class), $classContent);
     }
 
-    protected function prepareTemplateParams($class, $baseClass) {
+    protected function prepareTemplateParams($class, $baseClass): array {
         $delimiterBeforeClassNamePosition = strrpos($class, '\\');
         if ($delimiterBeforeClassNamePosition !== false) {
             $namespaceName = substr($class, 0, $delimiterBeforeClassNamePosition);
@@ -118,7 +121,7 @@ class ClassGenerator {
     }
 
     /**
-     * @return \PHPKitchen\DI\Container
+     * @return Container
      */
     protected function getContainer() {
         return Yii::$container;

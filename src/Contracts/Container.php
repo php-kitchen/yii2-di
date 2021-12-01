@@ -2,6 +2,7 @@
 
 namespace PHPKitchen\DI\Contracts;
 
+use PHPKitchen\DI\ClassFactory;
 use yii\base\InvalidConfigException;
 
 /**
@@ -40,7 +41,7 @@ interface Container {
      * @return object an instance of the requested class.
      * @throws InvalidConfigException if the class cannot be recognized or correspond to an invalid definition
      */
-    public function get($class, $params = [], $config = []);
+    public function get(string $class, array $params = [], array $config = []);
 
     /**
      * Registers a class definition with this container.
@@ -97,7 +98,7 @@ interface Container {
      *   parameters, `$config` the object configuration, and `$container` the container object. The return value
      *   of the callable will be returned by [[get()]] as the object instance requested.
      * - a configuration array: the array contains name-value pairs that will be used to initialize the property
-     *   values of the newly created object when [[get()]] is called. The `class` element stands for the
+     *   values of the newly created object when [[get()]] is called. The `class` element stands for
      *   the class of the object to be created. If `class` is not specified, `$class` will be used as the class name.
      * - a string: a class name, an interface name or an alias name.
      * @param array $params the list of constructor parameters. The parameters will be passed to the class
@@ -128,7 +129,7 @@ interface Container {
      *
      * @param string $class class name, interface name or alias name
      *
-     * @return boolean whether the container has the definition of the specified name..
+     * @return boolean whether the container has the definition of the specified name.
      * @see set()
      */
     public function has($class);
@@ -177,7 +178,7 @@ interface Container {
      *
      * @return object the object itself
      */
-    public function configureObject($object, $properties);
+    public function configureObject(object $object, array $properties): object;
 
     /**
      * Returns the object definition or the loaded shared object.
@@ -186,7 +187,7 @@ interface Container {
      *
      * @return array definition or empty array if definition not set.
      */
-    public function getDefinitionOf($definitionName);
+    public function getDefinitionOf(string $definitionName): array;
 
     /**
      * Returns the list of the object definitions or the loaded shared objects.
@@ -198,8 +199,8 @@ interface Container {
     /**
      * Invoke a callback with resolving dependencies in parameters.
      *
-     * This methods allows invoking a callback and let type hinted parameter names to be
-     * resolved as objects of the Container. It additionally allow calling function using named parameters.
+     * This method allows invoking a callback and let type hinted parameter names to be
+     * resolved as objects of the Container. It additionally allows calling function using named parameters.
      *
      * For example, the following callback may be invoked using the Container to resolve the formatter dependency:
      *
@@ -221,7 +222,7 @@ interface Container {
      * @throws InvalidConfigException if a dependency cannot be resolved or if a dependency cannot be fulfilled.
      * @since 2.0.7
      */
-    public function invoke(callable $callback, $params = []);
+    public function invoke(callable $callback, array $params = []);
 
     /**
      * Resolve dependencies for a function.
@@ -243,12 +244,12 @@ interface Container {
      *
      * @param ServiceProvider|mixed $provider service provider instance or definition
      */
-    public function addProvider($provider);
+    public function addProvider($provider): void;
 
     /**
-     * @param mixed $class
+     * @param string $class
      *
-     * @return Factory
+     * @return Factory|ClassFactory|object
      */
-    public function createFactoryFor($class);
+    public function createFactoryFor(string $class): object;
 }
